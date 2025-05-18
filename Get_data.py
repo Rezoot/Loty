@@ -8,7 +8,16 @@ cost sth
 """
 
 class Get_data:
-    pass
+    
+    def __init__(self):
+            
+        
+        pass
+        
+        
+        
+
+
 
 
 
