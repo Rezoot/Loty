@@ -1,7 +1,9 @@
 ﻿
 
-import Get_link_google as gl 
+
 import Get_data as gd
+
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -41,19 +43,24 @@ pierwsza mysl jezeli przez miesiac nie ma zadnego lotu to w ogole uniknij dalsze
 if __name__ == "__main__":
 
 
-    gl=gl.Get_link_google() #generate tfs and url 
-    gd=gd.Get_data()
+    
+    
+    starting_points=["GDN"]   
 
     date="2025-05-30"
-    with open("porty.csv") as file:
-        for f in file:
-            print(date+" lot: GDN -> "+ f[:3])
-            tfs = gl.generate_tfs("GDN", f[:3], date)
-            url =  gl.generate_flights_url(tfs)
-            print(url)
+
+
+    for start in starting_points:
+        with open("porty.csv") as file:
+            for f in file:
+                print(date+" lot: "+start+" -> "+ f[:3])
+                data=gd.Get_data(start,f[:3])
+                data.get_info()
+
+                #print(url)
         
         
-        
+    
         
 
 
