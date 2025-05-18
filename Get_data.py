@@ -4,7 +4,7 @@
 from pickle import NONE
 from tkinter import NO
 import Get_link_google as gl 
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 
@@ -56,9 +56,16 @@ class Get_data:
 
 
     def get_more_info(self,how_long=12):
-
+        
+        
         for i in range(how_long):
-            pass
+            for j in range(30):
+                
+                #print((datetime.today() + timedelta(days=j+30*i)).strftime('%Y-%m-%d'))
+                #zbieranie info szeregowo i zrobienie mapy  lub ogolnie tablicy cen/dat
+                pass
+                
+
 
         
 

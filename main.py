@@ -49,13 +49,17 @@ if __name__ == "__main__":
 
     date="2025-05-30"
 
-
+    #robienie roznych portow asynchronicznie. threating, multiprocesing, jak dziala async (nie wiem) 
+    #moze lepsze jest threatowanie linkow, nie jestem pewien. 
+    #[linki dobrze jak sa kolejno, porty dowolnie (chyba)]
+    #threat+ request lub async + aiohttp
     for start in starting_points:
         with open("porty.csv") as file:
             for f in file:
                 print(date+" lot: "+start+" -> "+ f[:3])
                 data=gd.Get_data(start,f[:3])
-                data.get_info()
+                data.get_more_info()
+                #data.get_info()
 
                 #print(url)
         
