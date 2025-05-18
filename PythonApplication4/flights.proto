@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message Airport {
+  string airport = 2;
+}
+
+message FlightData {
+  string date = 2;
+  Airport from_flight = 13;
+  Airport to_flight = 14;
+}
+
+message Info {
+  repeated FlightData data = 3;
+  uint32 seed_a = 19;
+  sint32 seed_b = 20;
+}
