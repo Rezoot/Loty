@@ -24,17 +24,30 @@ class Get_data:
         self.link="" 
         self.start=start_point
         self.end=end_point
-        self.start_date=start_date #from witch day start scraping 
         
-        self.date=[]
-        self.cost=[]
-        self.time=[]
-        self.airplains=[]
+        self.list_url=[]
+
+        self.flights=[]
+        #might be changed to dictionary 
+           
+
+
         
+        self.flight={
+            "date":"",
+            "cost":0,
+            "time":0,
+            "airplain":0,
+            "name":""
+            }
+
+
+
         if(start_date==None):
             self.date=datetime.today().strftime('%Y-%m-%d')
 
-        
+    
+    #return url to google from date
     def get_url(self,date):
         link=gl.Get_link_google() #generate tfs and url 
         tfs = link.generate_tfs(self.start, self.end,date)
@@ -42,28 +55,37 @@ class Get_data:
 
             
     
-    def get_info(self,date=datetime.today().strftime('%Y-%m-%d')):
+    #get one info about cost and times
+    def get_info(self,date):
 
         url=self.get_url(date)
+        website = requests.get(url)
+        soup = BeautifulSoup(website.content, 'html.parser')
+
         print(url)
 
 
 
-        
-        
+
+    #get async info from list of urls
+    def get_more_infos(self):
+        pass
+      
 
 
 
+    #get list of 30*how_many_months urls
+    def get_more_urls(self,how_many_months,date):
+        
+        self.list_url=[]
 
-    def get_more_info(self,how_long=12):
-        
-        
-        for i in range(how_long):
+        for i in range(how_many_months):
             for j in range(30):
+                day=(datetime.strptime(date, '%Y-%m-%d') + timedelta(days=j+30*i)).strftime('%Y-%m-%d')
+                self.list_url.append(self.get_url(day))
                 
-                #print((datetime.today() + timedelta(days=j+30*i)).strftime('%Y-%m-%d'))
-                #zbieranie info szeregowo i zrobienie mapy  lub ogolnie tablicy cen/dat
-                pass
+
+                
                 
 
 

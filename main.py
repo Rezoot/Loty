@@ -1,11 +1,14 @@
 ﻿
 
 
+from token import STAR
+from turtle import st
 import Get_data as gd
 
 
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
 
 
 
@@ -45,15 +48,21 @@ if __name__ == "__main__":
 
     
     
-    starting_points=["GDN"]   
+    starting_points=["WAW","GDN"]   
 
-    date="2025-05-30"
+    
+    date=datetime.today().strftime('%Y-%m-%d')
+    
+    
 
     #robienie roznych portow asynchronicznie. threating, multiprocesing, jak dziala async (nie wiem) 
     #moze lepsze jest threatowanie linkow, nie jestem pewien. 
     #[linki dobrze jak sa kolejno, porty dowolnie (chyba)]
     #threat+ request lub async + aiohttp
     for start in starting_points:
+
+        """
+        #test 1
         with open("porty.csv") as file:
             for f in file:
                 print(date+" lot: "+start+" -> "+ f[:3])
@@ -62,7 +71,21 @@ if __name__ == "__main__":
                 #data.get_info()
 
                 #print(url)
+        """
+
+        #test 2
+        print(date+" lot: "+start+" -> "+ "BER")
         
+        data=gd.Get_data(start,"BER")
+        #data.get_more_urls(1,date)
+
+        data.get_info(date)
+        
+        
+
+
+
+
         
     
         
