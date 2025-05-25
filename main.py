@@ -48,10 +48,13 @@ if __name__ == "__main__":
 
     
     
-    starting_points=["WAW","GDN"]   
+    starting_points=["GDN"]   
 
     
-    date=datetime.today().strftime('%Y-%m-%d')
+    #date=datetime.today().strftime('%Y-%m-%d')
+
+    date=(datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')
+    #date="2025-05-23"
     
     
 
@@ -74,11 +77,12 @@ if __name__ == "__main__":
         """
 
         #test 2
-        print(date+" lot: "+start+" -> "+ "BER")
+        print(date+" lot: "+start+" -> "+ "BGY")
         
-        data=gd.Get_data(start,"BER")
-        #data.get_more_urls(1,date)
+        data=gd.Get_data(start,"BGY")
 
+
+        #data.get_more_urls(3,date)
         data.get_info(date)
         
         
