@@ -1,6 +1,7 @@
 
 
 
+import csv
 from pickle import NONE
 from tkinter import NO, SEL
 import Get_link_google as gl 
@@ -106,19 +107,20 @@ class Get_data:
         start_stop_combine=start_stop_c+start_stop_e
         name_combine=name_c+name_e
         
-        how_many=len(time_combine)
+        how_many=int(len(cost_combine)/3)
 
         
-
         for i in range(how_many):
             flight={}
             
-
             start=start_stop_combine[i].find("span",jscontroller="cNtv4b")
             stop=start.find_next("span",jscontroller="cNtv4b")
             jump = jumps_combine[i].span.get_text()[0]
-            cost=cost_combine[i*3].span.get_text()[:-3] #respond: '1\xa0616', or '175' 
+
+            cost=int(cost_combine[i*3].span.get_text().replace('\xa0',"")[:-2]) #respond: '1\xa0616', or '175'
+
             time=time_combine[i].get_text()
+
             if (time[-1]=="n"):
                 t=time[-6:-4]
                 time=time.replace("godz.","")
@@ -130,7 +132,7 @@ class Get_data:
             flight["start"] = start.span.get_text()
             flight["stop"] = stop.span.get_text()
             flight["time"] = time
-            flight["cost"] = int(cost[0]+cost[2:]) if cost[1] =='\xa0' else int(cost)
+            flight["cost"] = cost
             flight["jumps"] = 0 if jump == 'B' else int(jump)
             flight["name"] = name_combine[i*2].span.get_text()
 
@@ -141,8 +143,7 @@ class Get_data:
 
 
 
-        for x in self.flights:
-            print(x)
+        
         
 
 
@@ -172,9 +173,11 @@ class Get_data:
                 
                 #self.list_url.append(self.get_url(day))
                 self.get_more_infos(day)
-                
-
-                
+        
+        test=[]
+        for x in self.flights:
+            test.append(x["cost"])
+        print(min(test))      
                 
 
 

@@ -82,8 +82,8 @@ if __name__ == "__main__":
         data=gd.Get_data(start,"BGY")
 
 
-        #data.get_more_urls(3,date)
-        data.get_info(date)
+        data.get_more_urls(1,date)
+        #data.get_info(date)
         
         
 
