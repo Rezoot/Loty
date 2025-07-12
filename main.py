@@ -53,8 +53,9 @@ if __name__ == "__main__":
     
     #date=datetime.today().strftime('%Y-%m-%d')
 
-    date=(datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')
-    #date="2025-05-23"
+    #date=(datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')
+    date=datetime.today().strftime('%Y-%m-%d')
+    #date="2026-04-19"
     
     
 
@@ -81,9 +82,14 @@ if __name__ == "__main__":
         
         data=gd.Get_data(start,"BGY")
 
-
-        data.get_more_urls(1,date)
+        #data.get_more_urls(1,date)
+        data.get_more_infos(1, date)
+       
         #data.get_info(date)
+        for x in data.flights:
+            print(x)
+
+        print(data.work/data.all*100)
         
         
 

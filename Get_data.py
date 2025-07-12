@@ -1,13 +1,11 @@
 
-
-
-import csv
-from pickle import NONE
-from tkinter import NO, SEL
 import Get_link_google as gl 
 from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
+import threading
+import httpx
+
 
 
 """
@@ -27,6 +25,9 @@ class Get_data:
         self.end=end_point
         
         self.list_url=[]
+        
+        self.all=0
+        self.work=0
 
 
 
@@ -45,6 +46,7 @@ class Get_data:
             "cost":int,
             "jumps":int,
             "name":string
+            "link":string
             }
         """
 
@@ -61,22 +63,33 @@ class Get_data:
 
             
     
-    #get one info about cost and times
+    #get info from one specific day 
     def get_info(self,date):
 
         url=self.get_url(date)
-        website = requests.get(url)
-        soup = BeautifulSoup(website.content, 'html.parser')
+       
+        website = requests.get(url).text
 
+        soup = BeautifulSoup(website, 'html.parser')
         print(url)
-      
-        first_ul=soup.find("ul",class_="Rk10dc")
+        flight={}
 
+        first_ul=soup.find("ul",class_="Rk10dc")
+        self.all+=1
         if(first_ul==None):
-            #write paramiter none or sth later!!!!!!!!!
-            print(url)
+
+            flight["date"] = date
+            flight["start"] = None
+            flight["stop"] = None
+            flight["time"] = None
+            flight["cost"] = None
+            flight["jumps"] = None
+            flight["name"] = None
+            flight["link"] = url
+
+            self.flights.append(flight)
             return
-     
+        self.work+=1
         second_ul=first_ul.find_next("ul")
 
         #c-cheap
@@ -99,6 +112,13 @@ class Get_data:
         #get name and sth that will skip every second iteration
         name_c=first_ul.find_all("div",class_=("sSHqwe tPgKwe ogfYpf"))
         name_e=second_ul.find_all("div",class_=("sSHqwe tPgKwe ogfYpf"))
+
+        
+        #leave it for later mayby will be needed
+        #date_c=first_ul.find_all("input",{"jsname":"yrriRe","class":"TP4Lpb eoY5cb j0Ppje"})
+        #date = soup.find("input",{"jsname":"yrriRe","class":"TP4Lpb eoY5cb j0Ppje"}).get("value")
+            
+            
 
 
         cost_combine=cost_c+cost_e1+cost_e2
@@ -135,49 +155,33 @@ class Get_data:
             flight["cost"] = cost
             flight["jumps"] = 0 if jump == 'B' else int(jump)
             flight["name"] = name_combine[i*2].span.get_text()
+            flight["link"] = url
 
             self.flights.append(flight)
             
 
 
-
-
-
-        
-        
-
-
-            
-        
-        
-        
     
 
 
-
-    #get async info from list of urls
-    def get_more_infos(self,day):
-        self.get_info(day)
-      
-
-
-
-    #get list of 30*how_many_months urls
-    def get_more_urls(self,how_many_months,date):
-        
-        self.list_url=[]
+    def get_more_infos(self,how_many_months,date):
+        threads = []
 
         for i in range(how_many_months):
             for j in range(30):
                 day=(datetime.strptime(date, '%Y-%m-%d') + timedelta(days=j+30*i)).strftime('%Y-%m-%d')
+
+                t = threading.Thread(target=self.get_info,args=(day,))
+                threads.append(t)
+                t.start()
                 
-                #self.list_url.append(self.get_url(day))
-                self.get_more_infos(day)
+            for t in threads:
+                t.join()
         
-        test=[]
-        for x in self.flights:
-            test.append(x["cost"])
-        print(min(test))      
+      
+
+    
+                 
                 
 
 
