@@ -1,11 +1,5 @@
 ﻿
-
-
-from token import STAR
-from turtle import st
 import Get_data as gd
-
-
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
@@ -43,18 +37,19 @@ pierwsza mysl jezeli przez miesiac nie ma zadnego lotu to w ogole uniknij dalsze
 """
 
 
+
 if __name__ == "__main__":
 
 
     
     
-    starting_points=["GDN"]   
+    starting_points=["KTW"]   
 
     
     #date=datetime.today().strftime('%Y-%m-%d')
 
-    #date=(datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')
-    date=datetime.today().strftime('%Y-%m-%d')
+    date=(datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')
+    #date=datetime.today().strftime('%Y-%m-%d')
     #date="2026-04-19"
     
     
@@ -65,6 +60,8 @@ if __name__ == "__main__":
     #threat+ request lub async + aiohttp
     for start in starting_points:
 
+
+        #read csv file with ports
         """
         #test 1
         with open("porty.csv") as file:
@@ -77,6 +74,9 @@ if __name__ == "__main__":
                 #print(url)
         """
 
+
+        #get many flights from one start to many ends
+        
         #test 2
         print(date+" lot: "+start+" -> "+ "BGY")
         
@@ -91,6 +91,14 @@ if __name__ == "__main__":
 
         print(data.work/data.all*100)
         
+
+
+        #test 3
+        
+        #print(date+" lot: "+start+" -> "+ "ATH")
+        #data=gd.Get_data(start,"ATH")
+        #data.get_info_httpx(date)
+
         
 
 

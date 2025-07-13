@@ -1,10 +1,12 @@
 
+from traceback import print_exc
 import Get_link_google as gl 
 from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 import threading
-import httpx
+from httpx_html import AsyncHTMLSession,HTMLSession
+import asyncio
 
 
 
@@ -162,6 +164,7 @@ class Get_data:
 
 
     
+    
 
 
     def get_more_infos(self,how_many_months,date):
@@ -178,6 +181,33 @@ class Get_data:
             for t in threads:
                 t.join()
         
+
+
+"""
+    async def get_page(self,url):
+        session = AsyncHTMLSession()
+        r = await session.get(url)
+        await r.html.arender(sleep=3, timeout=30)
+        await session.close()
+        return r.html.find("ul").text
+
+
+
+    def get_info_httpx(self,date):
+       
+        
+        #html = asyncio.run(self.get_page(self.get_url(date)))
+        #print(html)
+
+        session = HTMLSession()
+        r = session.get('https://pythonclock.org')
+        a=r.html.search('Python 2.7 will retire in...{}Enable Guido Mode')[0]
+        r.html.render()
+        b=r.html.search('Python 2.7 will retire in...{}Enable Guido Mode')[0]
+        print(a,b)
+ """
+
+
       
 
     
